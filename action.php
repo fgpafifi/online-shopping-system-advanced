@@ -263,10 +263,12 @@ if(isset($_POST["get_seleted_Category"]) || isset($_POST["selectBrand"]) || isse
 		if(isset($_SESSION["uid"])){
 
 		$user_id = $_SESSION["uid"];
-
-		$sql = "SELECT * FROM cart WHERE p_id = '$p_id' AND user_id = '$user_id'";
-		$run_query = mysqli_query($con,$sql);
-		$count = mysqli_num_rows($run_query);
+		$user_exists = DB::table('users')
+				->where('user', $user)
+				->where('pass', $pass)
+				->exists();
+	
+		if (!$user_exists)
 		if($count > 0){
 			echo "
 				<div class='alert alert-warning'>
